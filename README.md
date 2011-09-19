@@ -20,7 +20,7 @@ LightBox Server connects via a serial port to the LightBox circuit. The serial p
 LightBox Server listens to a given ip:port combination for clients. The code is written to assume only one client per network, but could easily be modified to support more.
 
 ### Usage
-`LightBox Server
+  `LightBox Server
     Command line options:
     -h --help show this help screen
     -s --serialport= The serial port to use.  This parameter must be defined
@@ -35,7 +35,7 @@ This is a simple client used to monitor the build of a large project. It checks 
     Basic usage: lightboxMakeClient.py -m TARGET
     Command line options:
     -h --help show this help screen
-    -m --maketarget= The make target to execute.  This parameter is required'
+    -m --maketarget= The make target to execute.  This parameter is required
     -a --address=[%s] The IP address of the sever.  Default is <host>
     -p --port=[%s] The port the LightBox server is listening on. default is <port>`
 
