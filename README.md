@@ -38,6 +38,9 @@ This is a simple client used to monitor the build of a large project. It checks 
            -a --address=[%s] The IP address of the sever.  Default is <host>
            -p --port=[%s] The port the LightBox server is listening on. default is <port>`
 
+## Circuit
+Circuit coming soon.
+
 # License
 See license file
 
