@@ -25,7 +25,7 @@ LightBox Server listens to a given ip:port combination for clients. The code is 
     '-h --help show this help screen'
     '-s --serialport= The serial port to use.  This parameter must be defined'
     '-c --command= The command to monitor.  If this parameter is not set then LightBox will operate in "server" mode'
-    '--serverport=[%s] The port the LightBox server should listen on.  If this parameter is set "command" will be ignored'  % 3001`
+    '--serverport=[%s] The port the LightBox server should listen on.  If this parameter is set "command" will be ignored' % 3001`
 
 ## makeMonClient.py
 This is a simple client used to monitor the build of a large project. It checks stdout and stderr for keywords, interprets those keywords, and then sends commands to LightBox Server. Because it issues the `make` command to a makefile is expected to be in the working directory. 
@@ -39,7 +39,8 @@ This is a simple client used to monitor the build of a large project. It checks 
     '-a --address=[%s] The IP address of the sever.  Default is %s' % host
     '-p --port=[%s] The port the LightBox server is listening on. default is %s' % port`
 
-
+# License
+See license file
 
 
 
