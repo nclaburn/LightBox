@@ -3,12 +3,18 @@
 ## Introduction
 LightBox is a dirt simple project that was born out of frustration of waiting on long compiles.
 Have you ever kicked off a long compile, or any other process really, and wanted a way to passively
-monitor it's progress?  Well here's a solution. It's crude, but it worked for me.
+monitor it's progress?  Well here's a solution. It's crude, but it worked for me. 
+
 
 ## lightbox.pde
-This is the [Arduino][1] source. It was tested against Arduino 19. 
+This is the [Arduino][1] source. It was developed in the Arduino IDE version 19. LightBox includes the capability to poll an external temperature sensor.
 
-### Commands
+### Command Set
+LightBox Circuit will respond to the following commands.
+
+*Z* - Randomize colors. This is the default state.
+
+
 
 ## lightboxserver.py
 The server application used to issue client commands to the LightBox circuit.
