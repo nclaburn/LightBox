@@ -3,7 +3,11 @@
 ## Introduction
 LightBox is a dirt simple project that was born out of frustration of waiting on long compiles.
 Have you ever kicked off a long compile, or any other process really, and wanted a way to passively
-monitor it's progress?  Well here's a solution. It's crude, but it worked for me.
+monitor it's progress?  Well here's a solution. It's crude, but it worked for me. 
+
+LightBox is a combination of a simple [Arduino][1] circuit, Python server script, and a Python client script. The server listens for commands from the client, and sends those to the circuit. The client script provided in this package was built to monitor the output of a long make build and produce a red, yellow green status back to the developer.
+
+In addition to the light status, the circuit supports a [LM35][3] temperature sensor.
 
 ## lightbox.pde
 This is the [Arduino][1] source. It was tested against Arduino 19. It includes the capability to read temperature from an external sensor. 
@@ -61,10 +65,14 @@ This is a simple client used to monitor the build of a large project. It checks 
     -a --address=[%s] The IP address of the sever.  Default is 127.0.0.1
     -p --port=[%s] The port the LightBox server is listening on. default is 3000`
 
+## Problems?
+If you find a problem, and since it's a quick hack project I'm sure there are some, just fork the project fix it, and send a pull request. Or, file an [issue][2].
+
 # License
 See license file
 
 
 
 [1]:http://arduino.cc/ "Arduino" 
-
+[2]:http://github.com/nclaburn/LightBox/issues "issues"
+[3]:http://www.national.com/mpf/LM/LM35.html#Overview "LM35"
