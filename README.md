@@ -9,6 +9,8 @@ LightBox is a combination of a simple [Arduino][1] circuit, Python server script
 
 In addition to the light status, the circuit supports a [LM35][3] temperature sensor.
 
+A video of the random color sequence can be seen on my woodworking blog [Woodworker++][4].
+
 ## lightbox.pde
 This is the [Arduino][1] source. It was tested against Arduino 19. It includes the capability to read temperature from an external sensor. 
 
@@ -76,3 +78,4 @@ See license file
 [1]:http://arduino.cc/ "Arduino" 
 [2]:http://github.com/nclaburn/LightBox/issues "issues"
 [3]:http://www.national.com/mpf/LM/LM35.html#Overview "LM35"
+[4]:http://woodworkerplusplus.blogspot.com/2009/11/paper-shade.html "Woodworker++"
