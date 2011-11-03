@@ -69,6 +69,7 @@ This is a simple client used to monitor the build of a large project. It checks 
 
 ## Circuit
 The circuit is fairly simple. It uses an [Atmega 168][5] chip on which the Arduino code is burned.
+![Schematic][6]
 ### Parts List
 * 10k resistor   (1)
 * 22pf capacitor (2)
@@ -90,3 +91,4 @@ See license file
 [3]:http://www.national.com/mpf/LM/LM35.html#Overview "LM35"
 [4]:http://woodworkerplusplus.blogspot.com/2009/11/paper-shade.html "Woodworker++"
 [5]:http://www.atmel.com/dyn/products/product_card.asp?part_id=3303 "Atmega 168"
+[6]:https://github.com/nclaburn/LightBox/raw/master/lightbox_schematic.png "schematic"
