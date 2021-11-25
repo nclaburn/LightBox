@@ -1,19 +1,19 @@
 #!/usr/bin/python
-import serial
+from serial import Serial
 import time
 import sys, getopt, os
-import SocketServer, socket, string
+import socketserver, socket, string
 from collections import deque
 import threading
 
 def usage():
     """ command line parameters """
-    print 'LightBox Server'
-    print 'Command line options:'
-    print '-h --help show this help screen'
-    print '-s --serialport= The serial port to use.  This parameter must be defined'
-    print '-c --command= The command to monitor.  If this parameter is not set then LightBox will operate in "server" mode'
-    print '--serverport=[%s] The port the LightBox server should listen on.  If this parameter is set "command" will be ignored'  % 3001 
+    print ('LightBox Server')
+    print ('Command line options:')
+    print ('-h --help show this help screen')
+    print ('-s --serialport= The serial port to use.  This parameter must be defined')
+    print ('-c --command= The command to monitor.  If this parameter is not set then LightBox will operate in "server" mode')
+    print ('--serverport=[%s] The port the LightBox server should listen on.  If this parameter is set "command" will be ignored'  % 3001 )
 
 def main():
     """
@@ -34,7 +34,7 @@ def main():
         usage()
         sys.exit()
             
-    print opts
+    print (opts)
     for o, a in opts:
         if o in ('-h', '--help'):
             usage()
@@ -48,7 +48,7 @@ def main():
             serverMode = True
 
     if serialPort == None:
-        print 'A serial port argument must be defined!'
+        print ('A serial port argument must be defined!')
         usage()
         sys.exit( 2 )
     
@@ -56,10 +56,10 @@ def main():
     lbs.Start()
     try:
         time.sleep( 1 )
-        print 'Press Enter to quit'
+        print ('Press Enter to quit')
         sys.stdin.read(1)
     except ( KeyboardInterrupt, SystemExit ):
-        print 'Shutting down'
+        print ('Shutting down')
     lbs.Stop()
     
 class LightBoxServer( threading.Thread ):
@@ -71,7 +71,7 @@ class LightBoxServer( threading.Thread ):
         self.serialPort = serialport
         self.serverPort = serverport
         self.command = command
-        self.Serial = Serial( serialport )
+        self.serial = serial( serialport )
         self.server = None
         self.stopThread = False
         self.deque = deque()
@@ -80,8 +80,8 @@ class LightBoxServer( threading.Thread ):
         """
         Start the lightbox server. Opens socket and serial device
         """
-        if self.Serial.Open():
-            print 'Starting Lightbox server'
+        if self.serial.Open():
+            print ('Starting Lightbox server')
             self.server = UdpServer( '0.0.0.0', self.serverPort, self.deque )
             self.stopThread = True
             self.start()
@@ -91,10 +91,10 @@ class LightBoxServer( threading.Thread ):
         Stop the lightbox server. Closes socket and serial device
         """
         self.stopThread = False
-        print 'Shutting down Lightbox server'
+        print ('Shutting down Lightbox server')
         if self.server != None:
             self.server.Stop()
-        self.Serial.Close()
+        self.serial.Close()
     
     def run( self ):
         """
@@ -105,12 +105,12 @@ class LightBoxServer( threading.Thread ):
         
         while self.stopThread:
             if len( self.deque ) > 0:
-                self.Serial.Write( self.deque.pop() )
+                self.serial.Write( self.deque.pop() )
             time.sleep( .5 )
         
-class Serial( threading.Thread ):
+class serial( threading.Thread ):
     """
-    Serial port server. Handles serial port communications.
+    serial port server. Handles serial port communications.
     """
     def __init__( self, serialport ):
         threading.Thread.__init__( self )
@@ -120,7 +120,7 @@ class Serial( threading.Thread ):
         
     def Close( self ):
         """Closes the serial port"""
-        print 'Closing serial port '
+        print ('Closing serial port ')
         self.stopThread = True
         if self.ser != None:
             self.ser.close()
@@ -128,16 +128,16 @@ class Serial( threading.Thread ):
     def Open( self ):
         """Opens the serial port"""
         try:
-            print 'Opening serial port'
-            self.ser = serial.Serial( self.serialPort, timeout = .25 )
+            print ('Opening serial port')
+            self.ser = Serial( self.serialPort, timeout = .25 )
             #print "Waiting for lightbox init..."
             self.stopThread = False
             self.start()            
         except (KeyboardInterrupt, SystemExit):
-            print 'Closing serial port..'
-        except serial.SerialException, (message):
-            print 'Error opening serial port:'
-            print message
+            print ('Closing serial port..')
+        except (SerialException, (message)):
+            print ('Error opening serial port:')
+            print (message)
             return False
         return True
 
@@ -145,21 +145,21 @@ class Serial( threading.Thread ):
         """
         Write given data to the serial port.
         """
-        print 'Writing serial data [%s]' % data
-        self.ser.write( data )
+        print ('Writing serial data [%s]' % data)
+        self.ser.write( data.encode() )
     
     def Read( self ):
         """
         Read data from serial port. Expects a newline character.
         """
-        print 'Read serial data [%s]' % self.ser.readline()
+        print ('Read serial data [%s]' % self.ser.readline())
 
     def run( self ):
         """
         Overridden thread
         """
         while self.stopThread:
-            print 'Read serial data [%s]' % self.ser.readline()
+            print ('Read serial data [%s]' % self.ser.readline())
         
 class UdpServer( threading.Thread ):
     """
@@ -183,11 +183,11 @@ class UdpServer( threading.Thread ):
         try:
             self.socket.bind( self.endpoint )
         except socket.error:
-            print 'Bind failed for port %d: [%s]' % ( self.port, socket.error )
+            print ('Bind failed for port %d: [%s]' % ( self.port, socket.error ))
             raise SystemExit
         self.stopThread = True
         self.start()
-        print 'UDP server started'
+        print ('UDP server started')
     
     def run( self ):
         """
@@ -195,18 +195,19 @@ class UdpServer( threading.Thread ):
         and puts them on the output deque.
         """
         while self.stopThread:
-            datagram, addr = self.socket.recvfrom( 256 )
+            messageAndAddr = self.socket.recvfrom( 256 )
+            datagram, addr = (messageAndAddr[0].decode(), messageAndAddr[1])
             if datagram:
                 if ( ord( datagram[ 0 ] ) > ord( 'A' ) ) and ( ord( datagram[ 0 ] ) < ord( 'z' ) ):
                     self.deque.appendleft( datagram )
-                    print 'Received command from [%s]:  Command [%s]' % ( addr[ 0 ], datagram )
+                    print ('Received command from [%s]:  Command [%s]' % ( addr[ 0 ], datagram ))
                 else:
-                    print 'Received bogus data from [%s]' % addr[ 0 ]
+                    print ('Received bogus data from [%s]' % addr[ 0 ])
     def Stop( self ):
         """
         Stop the thread and close the socket
         """
-        print 'UDP server stopped'
+        print ('UDP server stopped')
         self.stopThread = False
         self.socket.close()
         
